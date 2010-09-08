@@ -37,7 +37,7 @@ public class CipangoMain implements Runnable {
     }
 
     private URL extractCipangoJar(String name, String path) throws Exception {
-        InputStream jarStream = new URL("jar:" + path.replace(MAIN, "/WEB-INF/" + name + ".jar")).openStream();
+        InputStream jarStream = new URL("jar:" + path.replace(MAIN, "/WEB-INF/exe/" + name + ".jar")).openStream();
         File jarFile = File.createTempFile(name , ".jar");
         //jarFile.deleteOnExit();
         FileOutputStream outStream = new FileOutputStream(jarFile);
@@ -57,15 +57,22 @@ public class CipangoMain implements Runnable {
 
     private void launchCipango(URL[] jars) throws Exception {
         URLClassLoader loader = new URLClassLoader(jars);
-        Class klass = Class.forName("org.cipango.Server", true, loader);
-        Method start = klass.getMethod("start", new Class[] {});
-        Object server = klass.newInstance();
-        start.invoke(server, new Object[] {});
+        Class klass = Class.forName("org.cipango.CipangoRunner", true, loader);
+        Method main = klass.getDeclaredMethod("main", new Class[] {String[].class});
+        
+        String[] newargs = new String[args.length + 1];
+        newargs[0] = warfile;
+        System.arraycopy(args, 0, newargs, 1, args.length);
+
+        debug("invoking Cipango with: " + Arrays.deepToString(newargs));
+        Thread.currentThread().setContextClassLoader(loader);
+        main.invoke(null, new Object[] {newargs});
     }
 
     private void start() throws Exception {
         // TODO: DRY those jar names
         launchCipango(new URL[] { 
+          extractCipangoJar("cipango-main-1.0", this.path),
           extractCipangoJar("cipango-1.0", this.path),
           extractCipangoJar("cipango-dar-1.0", this.path),
           extractCipangoJar("sip-api-1.1", this.path),

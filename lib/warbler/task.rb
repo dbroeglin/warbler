@@ -187,14 +187,14 @@ module Warbler
     def define_cipango_executable_task
       task "cipango_executable" do
         require 'cipango-jars'
-        war.files['META-INF/MANIFEST.MF'] = StringIO.new(War::DEFAULT_MANIFEST.chomp + "Main-Class: CipangoMain\n")
+        war.files['META-INF/MANIFEST.MF'] = StringIO.new(War::DEFAULT_MANIFEST.chomp + 
+          "Main-Class: CipangoMain\n")
         war.files['CipangoMain.class'] = Zip::ZipFile.open("#{WARBLER_HOME}/lib/warbler_war.jar") do |zf|
           zf.get_input_stream('CipangoMain.class') {|io| StringIO.new(io.read) }
         end
         
         CipangoJars.all_jar_paths.each do |path|
-          puts path
-          war.files["WEB-INF/#{path.split('/').last}"] = path
+          war.files["WEB-INF/exe/#{path.split('/').last}"] = path
         end
       end
     end
