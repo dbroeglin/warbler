@@ -75,10 +75,12 @@ task :default => :spec
 begin
   require 'ant'
   directory "pkg/classes"
+  require 'cipango-jars'
   task :compile => "pkg/classes" do |t|
     ant.javac :srcdir => "ext", :destdir => t.prerequisites.first,
     :source => "1.5", :target => "1.5", :debug => true,
-    :classpath => "${java.class.path}:${sun.boot.class.path}",
+    :classpath => "${java.class.path}:${sun.boot.class.path}" + (
+    ":" + CipangoJars.all_jar_paths.join(":")),
     :includeantRuntime => false
   end
 

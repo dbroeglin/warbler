@@ -5,6 +5,7 @@ Manifest.txt
 README.txt
 Rakefile
 bin/warble
+ext/CipangoMain.java
 ext/JarMain.java
 ext/WarMain.java
 ext/WarblerJar.java
@@ -33,6 +34,7 @@ lib/warbler/traits/war.rb
 lib/warbler/version.rb
 lib/warbler/war.rb
 lib/warbler_jar.jar
+lib/warbler_war.jar
 spec/sample_jar/History.txt
 spec/sample_jar/Manifest.txt
 spec/sample_jar/README.txt

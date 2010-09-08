@@ -58,15 +58,16 @@ public class CipangoMain implements Runnable {
     private void launchCipango(URL[] jars) throws Exception {
         URLClassLoader loader = new URLClassLoader(jars);
         Class klass = Class.forName("org.cipango.Server", true, loader);
-        Server server = (Server)klass.newInstance();
-        
-        server.start();
+        Method start = klass.getMethod("start", new Class[] {});
+        Object server = klass.newInstance();
+        start.invoke(server, new Object[] {});
     }
 
     private void start() throws Exception {
         // TODO: DRY those jar names
         launchCipango(new URL[] { 
           extractCipangoJar("cipango-1.0", this.path),
+          extractCipangoJar("cipango-dar-1.0", this.path),
           extractCipangoJar("sip-api-1.1", this.path),
           extractCipangoJar("jetty-6.1.24", this.path),
           extractCipangoJar("jetty-util-6.1.24", this.path),
@@ -98,11 +99,17 @@ public class CipangoMain implements Runnable {
         try {
             new CipangoMain(args).start();
         } catch (Exception e) {
-            System.err.println("error: " + e.toString());
+            System.err.println("exception: " + e.toString());
             if (isDebug()) {
                 e.printStackTrace();
             }
             System.exit(1);
+          } catch (Throwable e) {
+              System.err.println("error: " + e.toString());
+              if (isDebug()) {
+                  e.printStackTrace();
+              }
+              System.exit(1);
         }
     }
 

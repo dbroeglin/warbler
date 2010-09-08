@@ -4,6 +4,7 @@ gem "rake", ">= 0.8.7"
 gem "rubyzip"
 gem "jruby-jars"
 gem "jruby-rack"
+gem "cipango-jars"
 
 group :development do
   gem "rspec", "~> 1.3"
