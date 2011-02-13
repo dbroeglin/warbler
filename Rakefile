@@ -97,8 +97,8 @@ end
 task Rake::Task['gem'].prerequisites.first => :jar
 
 task :warbler_jar => 'pkg' do
-  ruby "-rubygems", "-Ilib", "-S", "bin/warble"
-  mv "warbler.jar", "pkg/warbler-#{Warbler::VERSION}.jar"
+  ruby "-rubygems", "-Ilib", "-S", "bin/warble-dbroeglin"
+  mv "warbler-dbroeglin.jar", "pkg/warbler-dbroeglin-#{Warbler::VERSION}.jar"
 end
 
 task :package => :warbler_jar
