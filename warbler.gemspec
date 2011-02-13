@@ -27,6 +27,9 @@ deployment to a Java environment.}
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
+    X
+    X
+    X
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rake>, [">= 0.8.7"])
       s.add_runtime_dependency(%q<jruby-jars>, [">= 1.4.0"])

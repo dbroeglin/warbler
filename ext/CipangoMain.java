@@ -15,6 +15,8 @@ import java.util.Arrays;
 
 import org.cipango.Server;
 
+import org.mortbay.util.URIUtil;
+
 public class CipangoMain implements Runnable {
     public static final String MAIN = "/" + CipangoMain.class.getName().replace('.', '/') + ".class";
 
@@ -27,7 +29,7 @@ public class CipangoMain implements Runnable {
         this.args = args;
         URL mainClass = getClass().getResource(MAIN);
         this.path = mainClass.toURI().getSchemeSpecificPart();
-        this.warfile = mainClass.getFile().replace("!" + MAIN, "").replace("file:", "");
+        this.warfile = mainClass.getFile().replace("!" + MAIN, "").replace("file:", "").replace("%20", " "); // TODO: correct URL decoding
         this.debug = isDebug();
         this.webroot = File.createTempFile("cipango", "webroot");
         this.webroot.delete();
@@ -39,7 +41,7 @@ public class CipangoMain implements Runnable {
     private URL extractCipangoJar(String name, String path) throws Exception {
         InputStream jarStream = new URL("jar:" + path.replace(MAIN, "/WEB-INF/exe/" + name + ".jar")).openStream();
         File jarFile = File.createTempFile(name , ".jar");
-        //jarFile.deleteOnExit();
+        jarFile.deleteOnExit();
         FileOutputStream outStream = new FileOutputStream(jarFile);
         try {
             byte[] buf = new byte[4096];

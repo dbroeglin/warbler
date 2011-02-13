@@ -23,13 +23,13 @@ begin
   File.open("Manifest.txt", "wb") {|f| MANIFEST.each {|n| f << "#{n}\n"} }
   require 'hoe'
   require File.dirname(__FILE__) + '/lib/warbler/version'
-  hoe = Hoe.spec("warbler") do |p|
+  hoe = Hoe.spec("warbler-dbroeglin") do |p|
     p.version = Warbler::VERSION
     p.rubyforge_name = "caldersphere"
     p.url = "http://caldersphere.rubyforge.org/warbler"
-    p.author = "Nick Sieger"
-    p.email = "nick@nicksieger.com"
-    p.summary = "Warbler chirpily constructs .war files of your Rails applications."
+    p.author = "Nick Sieger (modified by Dominique Broeglin)"
+    p.email = "dominique.broeglin@gmail.com"
+    p.summary = "Warbler chirpily constructs .war files of your Rails/Sinatra and Sipatra applications."
     p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
     p.description = p.paragraphs_of('README.txt', 1...2).join("\n\n")
     p.extra_deps += [['rake', '>= 0.8.7'], ['jruby-jars', '>= 1.4.0'], ['jruby-rack', '>= 1.0.0'], ['rubyzip', '>= 0.9.4']]
